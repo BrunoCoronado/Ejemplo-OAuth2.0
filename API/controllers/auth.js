@@ -8,8 +8,8 @@ module.exports.login = async function(request, response, next){
 
         let access_token;
         let refresh_token;
-
-        if(usuarios[index_usuario].password != request.body.password){
+        
+        if(usuarios[index_usuario].password == request.body.password){
             access_token = jsonwebtoken.sign({usuario: request.body.usuario}, SECRET_KEY, {expiresIn: '1m'});
             refresh_token = jsonwebtoken.sign({usuario: request.body.usuario, refresh: true}, SECRET_KEY, {expiresIn: '5m'});  
         }
@@ -41,8 +41,7 @@ module.exports.refresh = async function(request, response, next){
             status: 200
         })
     } catch (error) {
-        console.log(error)
-        response.status(200).json({status: 403, mensaje: 'Error al refrescar token.'})
+        response.status(200).json({status: 404, mensaje: 'Refresh token inválido'})
     }
 }
 

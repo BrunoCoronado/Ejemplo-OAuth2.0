@@ -16,8 +16,8 @@ function initialize(){
         app.options('*', cors())
         app.use( (req, res, next) => { res.header("Access-Control-Allow-Origin", "*"); res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); next(); });
         httpServer = http.createServer(app);
-        app.use(express.json({ extended: true }))
-        app.use(express.urlencoded({ extended: true }));
+        app.use(express.urlencoded({limit: '15mb', extended: true}))
+        app.use(express.json({limit: '15mb', extended: true}));
         app.use(morgan('dev'));
         app.use('/public', router_public);
         app.use('/private', auth_service.isrevoked, router_private);
